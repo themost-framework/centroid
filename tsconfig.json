@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "experimentalDecorators": true,
+      "plugins": [
+        {
+          "name": "typescript-deno-plugin"
+        }
+      ]
+    }
+  }
