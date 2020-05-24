@@ -6,5 +6,6 @@
  * found in the LICENSE file at https://themost.io/license
  */
 
+export * from "./args.ts";
 export * from "./config.ts"
 export * from "./app.ts";

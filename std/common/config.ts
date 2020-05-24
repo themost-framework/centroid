@@ -54,7 +54,7 @@ export class ApplicationConfiguration {
             if (Object.prototype.hasOwnProperty.call(current, segment)) {
                 current = (<any>current)[segment];
                 if (current == null) {
-                    break;
+                    return current;
                 }
             } else {
                 return;
@@ -71,12 +71,27 @@ export class ApplicationConfiguration {
     setSourceAt(at: string, value: any): this {
         Args.notNull(at, 'Configuration option');
         const segments = at.split('/');
-        let current = this._options;
+        let current = <any>this._options;
+        let index = 1;
         for (const segment of segments) {
+            // check if property exists
             if (Object.prototype.hasOwnProperty.call(current, segment) == false) {
+                // if this is the last segment
+                if (index === segments.length) {
+                    // set value
+                    current[segment] = value;
+                    // and return
+                    return this;
+                }
+                // otherwise set empty object and continue
                 (<any>current)[segment] = {};
-            } 
-            current = (<any>current)[segment];
+            }
+            if (index === segments.length) {
+                current[segment] = value;
+                return this;
+            }
+            current = current[segment];
+            index += 1;
         }
         return this;
     }

@@ -4,7 +4,7 @@ import { Application } from '../common/app.ts';
 export class HttpApplication extends Application  {
     private _consumers: Array<HttpConsumer> = [];
     constructor() {
-        //
+        super();
     }
     /**
      * Define an http consumer for handling http requests

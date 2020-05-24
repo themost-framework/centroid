@@ -9,7 +9,7 @@ import {ApplicationConfigurationOptions, ApplicationConfiguration} from "./confi
 
 export abstract class Application {
     private readonly _services: Map<string,any> = new Map();
-    constructor(options?: ApplicationConfigurationOptions) {
+    constructor(options?: ApplicationConfigurationOptions | any) {
         // set configuration service
         this.useService(ApplicationConfiguration);
         // set application configuration options
@@ -17,6 +17,13 @@ export abstract class Application {
             this.getService(ApplicationConfiguration).assign(options);
         }
     }
+
+    /**
+     * Gets the instance of application configuration
+     */
+    get configuration(): ApplicationConfiguration {
+        return this.getService(ApplicationConfiguration);
+    } 
 
     /**
      * Defines an application service
