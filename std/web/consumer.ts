@@ -8,6 +8,10 @@ export class HttpNextResult extends HttpResult {
 
 }
 
+export class HttpEndResult extends HttpResult {
+
+}
+
 export class HttpConsumer {
     private _handler: (req: ServerRequest) => Promise<any>;
     constructor(handler: (req: ServerRequest) => Promise<any>) {

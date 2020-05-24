@@ -1,7 +1,7 @@
 import  { serve, listenAndServe, ServerRequest, HTTPOptions } from 'https://deno.land/std/http/server.ts';
 import { HttpConsumer } from './consumer.ts';
-
-export class HttpApplication {
+import { Application } from '../common/app.ts';
+export class HttpApplication extends Application  {
     private _consumers: Array<HttpConsumer> = [];
     constructor() {
         //
