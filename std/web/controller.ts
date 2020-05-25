@@ -170,6 +170,7 @@ export class HttpController {
     next(): HttpNextResult {
         return new HttpNextResult();
     }
+    
 
     end(): HttpEndResult {
         return new HttpEndResult();
