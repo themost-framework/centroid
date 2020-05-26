@@ -177,3 +177,85 @@ export class HttpNotAcceptableError extends HttpError {
         super(406, message);
     }
 }
+
+export class HttpProxyAuthenticationRequiredError extends HttpError {
+    constructor(message?: string) {
+        super(407, message);
+    }
+}
+
+export class HttpRequestTimeoutError extends HttpError {
+    constructor(message?: string) {
+        super(408, message);
+    }
+}
+
+export class HttpConflictError extends HttpError {
+    constructor(message?: string) {
+        super(409, message);
+    }
+}
+
+
+export class HttpGoneError extends HttpError {
+    constructor(message?: string) {
+        super(410, message);
+    }
+}
+
+
+export class HttpLengthRequiredError extends HttpError {
+    constructor(message?: string) {
+        super(411, message);
+    }
+}
+
+export class HttpPreconditionFailedError extends HttpError {
+    constructor(message?: string) {
+        super(411, message);
+    }
+}
+
+export class HttpUnsupportedMediaError extends HttpError {
+    constructor(message?: string) {
+        super(415, message);
+    }
+}
+
+export class HttpTokenExpiredError extends HttpError {
+    constructor(message?: string) {
+        super(498, message);
+    }
+}
+
+export class HttpTokenRequiredError extends HttpError {
+    constructor(message?: string) {
+        super(499, message);
+    }
+}
+
+export class HttpServerError extends HttpError {
+    constructor(message?: string) {
+        super(500, message);
+    }
+}
+
+export class HttpNotImplementedError extends HttpError {
+    constructor(message?: string) {
+        super(501, message);
+    }
+}
+
+
+export class HttpBadGatewayError extends HttpError {
+    constructor(message?: string) {
+        super(502, message);
+    }
+}
+
+
+export class HttpServiceUnavailableError extends HttpError {
+    constructor(message?: string) {
+        super(503, message);
+    }
+}

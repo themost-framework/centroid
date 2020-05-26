@@ -3,6 +3,7 @@ import { HttpConsumer, HttpNextResult, HttpErrorResult } from "./consumer.ts";
 import { posix, extname } from "https://deno.land/std/path/mod.ts";
 import { HttpContext } from "./context.ts";
 import { MediaTypeProvider } from "./mediaTypeProvider.ts";
+import { HttpUnsupportedMediaError } from "../common/mod.ts";
 const { stat, open } = Deno;
 export class HttpFileConsumer extends HttpConsumer {
     constructor(directory: string) {
@@ -27,21 +28,26 @@ export class HttpFileConsumer extends HttpConsumer {
                     if (contentType == null) {
                         // throw exception for missing content type
                         // (not allowed ?)
-                        throw new Error(); 
+                        throw new HttpUnsupportedMediaError(); 
                     }
                     context.response.body = await open(filePath);
                     context.response.headers?.append(
                         "content-length", stats.size.toString()
                     )
                     context.response.headers?.append(
-                        "content-type", "application/octet-stream"
+                        "content-type", contentType
                     );
+                    return context.end();
                 } else {
-                    return new HttpNextResult();
+                    return context.next();
                 }
             }
             catch (error) {
-                return new HttpErrorResult(error);
+                // file cannot be found, so continue
+                if (error.name === "NotFound") {
+                    return context.next();
+                }
+                throw error;
             }
         });
     }
