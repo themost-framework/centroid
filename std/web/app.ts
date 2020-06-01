@@ -26,7 +26,7 @@ export class HttpApplication extends Application  {
 
     /**
      * Defines an http handler for handling errors
-     * @param {HttpConsumer} consumer 
+     * @param {HttpConsumer} handler
      */
     handle(handler: HttpErrorHandler) {
         // add error handler

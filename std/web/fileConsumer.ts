@@ -5,8 +5,17 @@ import { HttpContext } from "./context.ts";
 import { MediaTypeProvider } from "./mediaTypeProvider.ts";
 import { HttpUnsupportedMediaError } from "../common/mod.ts";
 const { stat, open } = Deno;
+export declare interface FileConsumerOptions {
+    /**
+     * Defines the default response for a directory e.g. pages/ => pages/index.html
+     */
+    index?: string;
+}
 export class HttpFileConsumer extends HttpConsumer {
-    constructor(directory: string) {
+    constructor(directory: string, options?: FileConsumerOptions) {
+        const defaults = Object.assign({
+            index: 'index.html'
+        }, options);
         super(async (context: HttpContext) => {
             // get request url
             let normalizedUrl = posix.normalize(context.request.url);
@@ -19,9 +28,14 @@ export class HttpFileConsumer extends HttpConsumer {
                     throw err;
                 }
             }
-            const filePath = posix.join(directory, normalizedUrl);
+            let filePath = posix.join(directory, normalizedUrl);
             try {
-                const stats = await stat(filePath);
+                let stats = await stat(filePath);
+                if (stats.isDirectory) {
+                    // get index file
+                    filePath = posix.join(filePath, defaults.index);
+                    stats = await stat(filePath);
+                }
                 if (stats.isFile) {
                     const fileExtension = extname(filePath);
                     const contentType = context.application.getService(MediaTypeProvider).resolve(fileExtension);

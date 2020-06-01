@@ -4,13 +4,14 @@ import { Response } from "https://deno.land/std/http/server.ts";
  * Defines an error handler for catching errors and generating an acceptable response
  */
 export class HttpErrorHandler {
-    private _handler: (context: HttpContext, error: any) => Promise<Response>;
+    private readonly _handler: (context: HttpContext, error: any) => Promise<Response>;
     constructor(handler: (context: HttpContext, error: any) => Promise<Response>) {
         this._handler = handler;
     }
     /**
      * Execute handler against a server request
-     * @param req 
+     * @param context
+     * @param error
      */
     async run(context: HttpContext, error: any): Promise<void> {
         // execute handler
