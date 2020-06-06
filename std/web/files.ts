@@ -1,5 +1,6 @@
 // MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
-import { HttpConsumer, HttpNextResult, HttpErrorResult } from "./consumer.ts";
+import { HttpConsumer } from "./consumer.ts";
+import { HttpNextResult, HttpErrorResult } from "./httpResults.ts";
 import { posix, extname } from "https://deno.land/std/path/mod.ts";
 import { HttpContext } from "./context.ts";
 import { MediaTypeProvider } from "./mediaTypeProvider.ts";

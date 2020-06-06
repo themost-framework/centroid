@@ -1,11 +1,12 @@
-import { HttpNextResult, HttpEndResult } from "./consumer.ts";
+import { HttpNextResult, HttpEndResult } from "./signals.ts";
+import { HttpContentResult, HttpJsonResult } from "./results.ts";
 
 /**
  * @param {string} name
  * @returns {Function}
  */
-export function httpController(name: string):(target:any, key: string, descriptor:any) => any {
-    return function (target:any, key: string, descriptor:any) {
+export function httpController(name: string):(target:any) => any {
+    return function (target:any) {
         if (typeof target === 'function') {
             target.httpController = true;
         }
@@ -16,7 +17,7 @@ export function httpController(name: string):(target:any, key: string, descripto
             enumerable: true,
             writable: true
         });
-        return descriptor;
+        return target;
     }
 }
 
@@ -153,7 +154,7 @@ export function httpHead():(target:any, key: string, descriptor:PropertyDescript
 /**
  * Defines that the method where applied represents an action of an http controller
  */
-function httpAction(name: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpAction(name: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
@@ -167,11 +168,31 @@ function httpAction(name: string):(target:any, key: string, descriptor:PropertyD
 
 export class HttpController {
 
+    /**
+     * Indicates that request processsing continue at next level
+     */
     next(): HttpNextResult {
         return new HttpNextResult();
     }
-    
 
+    /**
+     * Returns an html content
+     * @param data 
+     */
+    content(data: string): HttpNextResult {
+        return new HttpContentResult(data);
+    }
+
+    /**
+     * Returns a JSON document
+     * @param data
+     */
+    json(data: any): HttpNextResult {
+        return new HttpJsonResult(data);
+    }
+    /**
+     * Indicates that request should be ended
+     */
     end(): HttpEndResult {
         return new HttpEndResult();
     }

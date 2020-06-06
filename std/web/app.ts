@@ -1,7 +1,8 @@
 import  { serve, listenAndServe, ServerRequest, HTTPOptions } from 'https://deno.land/std/http/server.ts';
-import { HttpConsumer, HttpNextResult } from './consumer.ts';
-import { Application } from '../common/app.ts';
-import {MediaTypeProvider} from './mediaTypeProvider.ts';
+import { HttpConsumer } from "./consumer.ts";
+import { HttpNextResult } from "./signals.ts";
+import { Application } from "../common/app.ts";
+import { MediaTypeProvider } from './mediaTypeProvider.ts';
 import { HttpContext } from './context.ts';
 import { HttpNotFoundError } from '../common/mod.ts';
 import { DefaultErrorHandler, HttpErrorHandler } from './errorHandler.ts';

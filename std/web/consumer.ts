@@ -1,24 +1,5 @@
 import { HttpContext } from "./context.ts";
 
-export class HttpResult {
-    //
-}
-
-export class HttpNextResult extends HttpResult {
-
-}
-
-export class HttpEndResult extends HttpResult {
-
-}
-
-export class HttpErrorResult extends HttpResult {
-    public error: Error;
-    constructor(error: Error) {
-        super();
-        this.error = error;
-    }
-}
 
 export class HttpConsumer {
     private _handler: (context: HttpContext) => Promise<any>;

@@ -1,7 +1,7 @@
 // MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
 import { Context } from "../common/context.ts";
 import { ServerRequest, Response } from "https://deno.land/std/http/server.ts";
-import { HttpNextResult, HttpEndResult } from "./consumer.ts";
+import { HttpNextResult, HttpEndResult } from "./signals.ts";
 export class HttpContext extends Context {
     public request: ServerRequest;
     public response: Response;

@@ -8,7 +8,7 @@ import {
   } from "https://deno.land/std/testing/asserts.ts";
   import { posix } from "https://deno.land/std/path/mod.ts";
   import {HttpApplication} from './app.ts';
-import { HttpFileConsumer } from "./fileConsumer.ts";
+import { HttpFileConsumer } from "./files.ts";
   
   const { test, cwd } = Deno;
 
