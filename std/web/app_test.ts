@@ -3,7 +3,6 @@ import {
     assert,
     assertEquals,
     assertMatch,
-    assertStrContains,
     assertThrowsAsync
   } from "https://deno.land/std/testing/asserts.ts";
   import { posix } from "https://deno.land/std/path/mod.ts";

@@ -3,7 +3,7 @@ import {
    assertEquals
 } from "https://deno.land/std/testing/asserts.ts";
 import { httpGet, HttpAction, httpPost, httpPut, httpPatch, httpHead, httpOptions, httpAny, HttpController } from './controller.ts';
-import { HttpNextResult, HttpEndResult } from "./consumer.ts";
+import { HttpNextResult, HttpEndResult } from "./signals.ts";
 
 const { test } = Deno;
 
