@@ -12,6 +12,7 @@ export class HttpCorsConsumer extends HttpConsumer {
             "access-control-allow-headers",
             "Origin, X-Requested-With, Content-Type, Accept, Range"
             );
+            return context.next();
         });
     }
 }

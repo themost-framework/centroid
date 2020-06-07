@@ -45,7 +45,7 @@ export class HttpApplication extends Application  {
             // create context
             const context = new HttpContext(req);
             context.application = this;
-            for (const consumer of this._consumers) {
+            for (let consumer of this._consumers) {
                 try {
                     const result = await consumer.run(context);
                     if (!(result instanceof HttpNextResult)) {

@@ -1,5 +1,6 @@
 import { HttpNextResult, HttpEndResult } from "./signals.ts";
 import { HttpContentResult, HttpJsonResult } from "./results.ts";
+import { HttpContext } from "./context.ts";
 
 /**
  * @param {string} name
@@ -166,7 +167,9 @@ export function httpAction(name: string):(target:any, key: string, descriptor:Pr
     }
 }
 
-export class HttpController {
+export class HttpController  {
+
+    public context?: HttpContext;
 
     /**
      * Indicates that request processsing continue at next level

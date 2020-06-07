@@ -1,16 +1,21 @@
 // MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
+import { posix } from "https://deno.land/std/path/mod.ts";
 import {Application, ApplicationService} from "../common/app.ts";
 import { Args } from "../common/mod.ts";
 
-export declare interface HttpRouteConfig {
+export declare interface HttpRoute {
+    path: string;
+    pathMatch?: string;
+    redirectTo?: string;
     controller?: any;
     action?: string;
     verb?: any;
-    url: string;
+    children?: Array<HttpRoute>;
+    parentParams?: any;
 }
 
 export declare interface  HttpActivatedRoute {
-    routeConfig: HttpRouteConfig;
+    routeConfig: HttpRoute;
     params: any;
 }
 
@@ -22,6 +27,8 @@ declare interface HttpRouteParamConfig {
 }
 
 export class HttpRouter extends ApplicationService {
+
+    public config: Array<HttpRoute> = [];
     /**
      * A set of parsers for parsing route data
      */
@@ -75,13 +82,22 @@ export class HttpRouter extends ApplicationService {
         super(app);
     }
 
-    isMatch(routeConfig: HttpRouteConfig, urlToMatch: string): HttpActivatedRoute | void {
+    /**
+     * Initializes route configuration
+     * @param items 
+     */
+    routes(items: Array<HttpRoute>) {
+        // clear array of routes
+        this.config.splice(0, this.config.length);
+        this.config.push.apply(this.config, items);
+    }
+
+    isMatch(routeConfig: HttpRoute, urlToMatch: string): HttpActivatedRoute | void {
         if (routeConfig == null) {
             throw new Error("Route configuration may not be null");
         }
         Args.notNull(routeConfig, 'Route configuration');
         Args.notEmpty(urlToMatch, 'Route URL');
-        
         let str1 = urlToMatch;
         let patternMatcher: any;
         let patternMatch: any;
@@ -90,7 +106,7 @@ export class HttpRouter extends ApplicationService {
         if (k >= 0)
             str1 = urlToMatch.substr(0, k);
         let re = /({([\w[\]]+)(?::\s*((?:[^{}\\]+|\\.|{(?:[^{}\\]+|\\.)*})+))?})|((:)([\w[\]]+))/ig;
-        let match = re.exec(routeConfig.url);
+        let match = re.exec(routeConfig.path);
         let paramConfig = [];
         while(match) {
             if (match[2] == null) {
@@ -126,11 +142,19 @@ export class HttpRouter extends ApplicationService {
                     value: null
                 });
             }
-            match = re.exec(routeConfig.url);
+            match = re.exec(routeConfig.path);
         }
         let str, matcher;
-        str = routeConfig.url.replace(re, "([\\$_\\-.:',+=%0-9\\w-]+)");
-        matcher = new RegExp("^" + str + "$", "ig");
+        str = routeConfig.path.replace(re, "([\\$_\\-.:',+=%0-9\\w-]+)");
+        const pathMatch = routeConfig.pathMatch ? routeConfig.pathMatch : 'prefix';
+        // validate pathMatch (prefix or full)
+        if (pathMatch === 'full') {
+            matcher = new RegExp("^" + str + "$", "ig");
+        } else if (pathMatch === 'prefix') {
+            matcher = new RegExp("^" + str, "ig");
+        } else {
+            throw new Error('Route configuration pathMatch argument is invalid. Expected prefix or full.');
+        }
         match = matcher.exec(str1);
         if (match == null) {
             return;
@@ -156,14 +180,57 @@ export class HttpRouter extends ApplicationService {
             Object.defineProperty(result, item.name, {
                 configurable: true,
                 enumerable: true,
+                writable: true,
                 value: item.value
             });
             return result;
         }, {});
+        // try to assign routeConfig parent params if any
+        Object.assign(params, routeConfig.parentParams);
         return {
             routeConfig,
             params
         };
+    }
+
+    query(routes: HttpRoute[], url: string): HttpActivatedRoute | any {
+        for (const route of routes) {
+            // an empty route path is actually a "/"
+            route.path = route.path || '/';
+            let currentRoute =<HttpActivatedRoute>this.isMatch(route, url);
+            if (currentRoute) {
+                // validate pathMatch parameter
+                // (set to full if it's not defined)
+                let pathMatch = currentRoute.routeConfig.pathMatch || 'full';
+                // if current route has children
+                if (currentRoute.routeConfig.children && currentRoute.routeConfig.children.length) {
+                    // (set to prefix if it's not defined)
+                    pathMatch = currentRoute.routeConfig.pathMatch || 'prefix';
+                }
+                // if currentRoute is defined and pathMatch is equal to prefix
+                if (currentRoute && pathMatch === 'prefix' && currentRoute.routeConfig.children) {
+                    // query children
+                    // assign parent path
+                    const children = currentRoute.routeConfig.children.map( child => {
+                        return Object.assign({ }, child, {
+                            // reset path to include parent 
+                            path: posix.join(currentRoute.routeConfig.path, child.path),
+                            // set params
+                            parentParams: currentRoute.params || {}
+                        });
+                    });
+                    // query route
+                    currentRoute = <HttpActivatedRoute>this.query(children, url);
+                    if (currentRoute) {
+                        return currentRoute;
+                    }
+                }
+                // if patchMatch is full return current route
+                if (currentRoute && pathMatch === 'full') {
+                    return currentRoute;
+                }
+            }
+        }
     }
 
 
