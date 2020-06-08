@@ -1,3 +1,5 @@
+// MOST Web Framework Centroid for Deno Copyright (c) 2020, 
+// THEMOST LP All rights reserved BSD-3-Clause license
 import { HttpContext } from "./context.ts";
 import { Response } from "https://deno.land/std/http/server.ts";
 import { HttpEndResult } from "./signals.ts";
@@ -77,6 +79,34 @@ export class HttpJsonResult extends HttpResult {
     constructor(data: any) {
         super(data);
         this.contentType = "application/json";
+    }
+    async execute(context: HttpContext): Promise<HttpEndResult> {
+        // if data is not defined or null
+        if (this.data == null) {
+            return await (new HttpEmptyResponse().execute(context));
+        }
+        // otherwise build headers
+        let body;
+        // if data has toJSON() method
+        if (typeof this.data.toJSON === 'function') {
+            body = this.data.toJSON();
+        } else {
+            // otherwise use JSON.stringify
+            body = JSON.stringify(this.data);
+        }
+        let headers = this.headers;
+        let status = 200;
+        if (this.contentType) {
+            headers.set("content-type", this.contentType);
+        }
+        headers.set("content-length", body.length);
+        // and set context
+        context.response = <Response> {
+            status,
+            headers,
+            body
+        }
+        return context.end();
     }
 }
 

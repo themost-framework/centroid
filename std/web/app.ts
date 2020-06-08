@@ -45,16 +45,15 @@ export class HttpApplication extends Application  {
             // create context
             const context = new HttpContext(req);
             context.application = this;
-            for (let consumer of this._consumers) {
-                try {
+            try {
+                for (let consumer of this._consumers) {
                     const result = await consumer.run(context);
                     if (!(result instanceof HttpNextResult)) {
                         return req.respond(context.response);
                     }
                 }
-                catch (err) {
-                    return this._errorHandler.run(context, err);
-                }
+            } catch(err) {
+                return this._errorHandler.run(context, err);
             }
             return this._errorHandler.run(context, new HttpNotFoundError());
         });

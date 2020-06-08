@@ -31,7 +31,7 @@ export class HttpConsumer {
 export declare interface ControllerConsumerOptions {
     dir?: string
 }
-export class HttpControllerConsumer extends HttpConsumer {
+export class ControllerConsumer extends HttpConsumer {
     constructor(options?: ControllerConsumerOptions) {
         const defaults = Object.assign({
             dir: 'controllers'
@@ -73,7 +73,7 @@ export class HttpControllerConsumer extends HttpConsumer {
                 // set context
                 currentController.context = context;
                 // get controller action
-                const controllerAction = HttpControllerConsumer.queryControllerAction(currentController, context.route.params.action);
+                const controllerAction = ControllerConsumer.queryControllerAction(currentController, context.route.params.action);
                 // if controller action cannot be found
                 if (controllerAction == null) {
                     // do nothing
@@ -138,7 +138,7 @@ export class HttpControllerConsumer extends HttpConsumer {
         // get controller prtotype
         const controllerPrototype = Object.getPrototypeOf(controller);
         if (controllerPrototype) {
-            const controllerProperties = HttpControllerConsumer.getControllerPropertyNames(controllerPrototype);
+            const controllerProperties = ControllerConsumer.getControllerPropertyNames(controllerPrototype);
             //query controller methods that support current http request
             const controllerProperty = controllerProperties.find((x) => {
                 const instanceMethod = (controller as any)[x];

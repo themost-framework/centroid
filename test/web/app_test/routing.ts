@@ -1,4 +1,4 @@
-import { HttpRoute } from "../router.ts";
+import { HttpRoute } from "../../../std/web/router.ts";
 import { RootController } from "./controllers/root.ts";
 
 const APP_ROUTES: Array<HttpRoute> = [

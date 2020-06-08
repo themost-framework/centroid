@@ -2,10 +2,9 @@ import {
    assert,
    assertEquals
 } from "https://deno.land/std/testing/asserts.ts";
-import { httpGet, HttpAction, httpPost, httpPut, httpPatch, httpHead, httpOptions, httpAny, HttpController, httpAction } from './controller.ts';
-import { HttpNextResult, HttpEndResult } from "./signals.ts";
-import { HttpControllerConsumer } from "./consumer.ts";
-import { HttpContext } from "./context.ts";
+import { httpGet, HttpAction, httpPost, httpPut, httpPatch, 
+   httpHead, httpOptions, httpAny, HttpController, httpAction } from "../../std/web/mod.ts";
+import { HttpNextResult, HttpEndResult, ControllerConsumer, HttpContext } from "../../std/web/mod.ts";
 import { ServerRequest } from "https://deno.land/std/http/server.ts";
 
 const { test } = Deno;
@@ -120,7 +119,7 @@ test("HttpController.end()", async function (): Promise<void> {
    assert(result instanceof HttpEndResult);
 });
 
-test("HttpControllerConsumer", async function (): Promise<void> {
+test("ControllerConsumer", async function (): Promise<void> {
    class IndexController extends HttpController {
       @httpGet()
       @httpAction('index')
@@ -132,6 +131,6 @@ test("HttpControllerConsumer", async function (): Promise<void> {
    controller.context = new HttpContext(Object.assign(new ServerRequest(), {
       method: 'GET'
    }));
-   const controllerAction = HttpControllerConsumer.queryControllerAction(controller, 'index');
+   const controllerAction = ControllerConsumer.queryControllerAction(controller, 'index');
    assert(controllerAction);
 });

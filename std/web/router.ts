@@ -1,4 +1,5 @@
-// MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
+// MOST Web Framework Centroid for Deno Copyright (c) 2020,
+// THEMOST LP All rights reserved BSD-3-Clause license
 import { posix } from "https://deno.land/std/path/mod.ts";
 import {Application, ApplicationService} from "../common/app.ts";
 import { Args } from "../common/mod.ts";

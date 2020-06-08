@@ -1,4 +1,5 @@
-// MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
+// MOST Web Framework Centroid for Deno Copyright (c) 2020, 
+// THEMOST LP All rights reserved BSD-3-Clause license
 import { HttpConsumer } from "./consumer.ts";
 import { HttpNextResult, HttpErrorResult } from "./signals.ts";
 import { posix, extname } from "https://deno.land/std/path/mod.ts";
@@ -12,7 +13,7 @@ export declare interface FileConsumerOptions {
      */
     index?: string;
 }
-export class HttpFileConsumer extends HttpConsumer {
+export class FileConsumer extends HttpConsumer {
     constructor(directory: string, options?: FileConsumerOptions) {
         const defaults = Object.assign({
             index: 'index.html'

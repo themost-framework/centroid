@@ -1,9 +1,7 @@
 import {
     assert
  } from "https://deno.land/std/testing/asserts.ts";
-import { ApplicationConfiguration } from "./config.ts";
-import { Application } from "./app.ts";
-import { Context } from "./context.ts";
+ import { ApplicationConfiguration, Application, Context } from "../../std/common/mod.ts";
 
 const { test } = Deno;
 

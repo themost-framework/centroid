@@ -6,11 +6,10 @@ import {
     assertThrowsAsync
   } from "https://deno.land/std/testing/asserts.ts";
   import { posix } from "https://deno.land/std/path/mod.ts";
-  import {HttpApplication} from './app.ts';
-import { HttpControllerConsumer } from "./consumer.ts";
+  import {HttpApplication, ControllerConsumer } from "../../std/web/mod.ts";
   const { test, cwd } = Deno;
 
-  test("new HttpControllerConsumer()", async function (): Promise<void> {
-    const consumer = new HttpControllerConsumer();
+  test("new ControllerConsumer()", async function (): Promise<void> {
+    const consumer = new ControllerConsumer();
     assert(consumer);
   });

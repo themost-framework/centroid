@@ -1,7 +1,7 @@
 // MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
 import { HttpConsumer } from "./consumer.ts";
 import { HttpContext } from "./context.ts";
-export class HttpCorsConsumer extends HttpConsumer {
+export class CorsConsumer extends HttpConsumer {
     constructor() {
         super(async (context: HttpContext) => {
             if (context.response.headers == null) {

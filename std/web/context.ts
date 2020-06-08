@@ -7,6 +7,7 @@ export class HttpContext extends Context {
     public request: ServerRequest;
     public response: Response;
     public route?: HttpActivatedRoute;
+    public body: any | null;
     constructor(req: ServerRequest) {
         super();
         // set context request

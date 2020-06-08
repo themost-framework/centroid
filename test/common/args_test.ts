@@ -1,7 +1,7 @@
 import {
     assertThrows
  } from "https://deno.land/std/testing/asserts.ts";
- import { Args } from "./args.ts";
+ import { Args } from "../../std/common/mod.ts";
  
  const { test } = Deno;
 

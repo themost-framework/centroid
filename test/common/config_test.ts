@@ -3,7 +3,7 @@ import {
     assertEquals,
     assertThrows
  } from "https://deno.land/std/testing/asserts.ts";
-import { ApplicationConfiguration } from "./config.ts";
+ import { ApplicationConfiguration } from "../../std/common/mod.ts";
  
  const { test } = Deno;
 

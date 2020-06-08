@@ -1,4 +1,5 @@
-// MOST Web Framework Centroid for Deno Copyright (c) 2020, THEMOST LP All rights reserved BSD-3-Clause license
+// MOST Web Framework Centroid for Deno Copyright (c) 2020,
+// THEMOST LP All rights reserved BSD-3-Clause license
 import {Application} from "./app.ts";
 /**
  * Defines a user context

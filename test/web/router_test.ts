@@ -2,8 +2,7 @@ import {
     assert,
     assertEquals
  } from "https://deno.land/std/testing/asserts.ts";
-import { HttpRouter } from './router.ts';
-import { HttpApplication } from "./app.ts";
+import { HttpRouter, HttpApplication } from '../../std/web/mod.ts';
  const { test } = Deno;
 
  test("HttpRouter", async function (): Promise<void> {
