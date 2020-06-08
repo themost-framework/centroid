@@ -40,21 +40,24 @@ export declare interface HttpAction {
 /**
  * Defines that the method where applied handles an HTTP GET request
  */
-export function httpGet():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpGet(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value !== 'function') {
             throw new Error('Invalid decorator descriptor. Expected function.');
         }
         Object.assign(descriptor.value, {
             httpGet: true
-        });        
+        });
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }
         return descriptor;
     }
 }
 /**
  * Defines that the method where applied handles any HTTP method e.g. GET, POST, PUT etc
  */
-export function httpAny():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpAny(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
@@ -67,17 +70,23 @@ export function httpAny():(target:any, key: string, descriptor:PropertyDescripto
             httpPatch: true,
             httpOptions: true,
             httpHead: true
-        });        
+        });  
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }
         return descriptor;
     }
 }
 /**
  * Defines that the method where applied handles an HTTP POST request
  */
-export function httpPost():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpPost(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value === 'function') {
             descriptor.value.httpPost = true;
+        }
+        if (action) {
+            httpAction(action)(target, key, descriptor);
         }
         return descriptor;
     }
@@ -85,42 +94,51 @@ export function httpPost():(target:any, key: string, descriptor:PropertyDescript
 /**
  * Defines that the method where applied handles an HTTP PATCH request
  */
-export function httpPatch():(target:any, key: string, descriptor:any) => any {
+export function httpPatch(action?: string):(target:any, key: string, descriptor:any) => any {
     return function (target:any, key: string, descriptor:any) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
         }
         Object.assign(descriptor.value, {
             httpPatch: true
-        });        
+        });
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }  
         return descriptor;
     }
 }
 /**
  * Defines that the method where applied handles an HTTP PUT request
  */
-export function httpPut():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpPut(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:any) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
         }
         Object.assign(descriptor.value, {
             httpPut: true
-        });        
+        });
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }
         return descriptor;
     }
 }
 /**
  * Defines that the method where applied handles an HTTP DELETE request
  */
-export function httpDelete():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpDelete(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
         }
         Object.assign(descriptor.value, {
             httpDelete: true
-        });        
+        });
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }
         return descriptor;
     }
 }
@@ -141,14 +159,17 @@ export function httpOptions():(target:any, key: string, descriptor:PropertyDescr
 /**
  * Defines that the method where applied handles an HTTP HEAD request
  */
-export function httpHead():(target:any, key: string, descriptor:PropertyDescriptor) => any {
+export function httpHead(action?: string):(target:any, key: string, descriptor:PropertyDescriptor) => any {
     return function (target:any, key: string, descriptor:PropertyDescriptor) {
         if (typeof descriptor.value !== 'function') {
             throw new InvalidDecoratorDescriptor();
         }
         Object.assign(descriptor.value, {
             httpHead: true
-        });        
+        });
+        if (action) {
+            httpAction(action)(target, key, descriptor);
+        }
         return descriptor;
     }
 }
@@ -162,7 +183,7 @@ export function httpAction(name: string):(target:any, key: string, descriptor:Pr
         }
         Object.assign(descriptor.value, {
             httpAction: name
-        });        
+        });
         return descriptor;
     }
 }

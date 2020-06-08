@@ -1,9 +1,8 @@
 import { httpController, HttpController, httpGet, httpAction, httpPost } from "../../../../std/web/controller.ts";
 
-@httpController('.')
+@httpController('root')
 export class RootController extends HttpController {
-    @httpGet()
-    @httpAction('index')
+    @httpGet('index')
     index() {
         return this.content(`<h2>Hello World</h2>`);
     }
