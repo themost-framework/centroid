@@ -3,8 +3,9 @@ import { Context } from "../common/context.ts";
 import { ServerRequest, Response } from "https://deno.land/std/http/server.ts";
 import { HttpNextResult, HttpEndResult } from "./signals.ts";
 import { HttpActivatedRoute } from "./router.ts";
+import { HttpRequest } from "./request.ts";
 export class HttpContext extends Context {
-    public request: ServerRequest;
+    public request: HttpRequest;
     public response: Response;
     public route?: HttpActivatedRoute;
     public body: any | null;

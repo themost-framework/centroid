@@ -13,4 +13,4 @@ app.useService(HttpRouter);
 // add routes
 app.getService(HttpRouter).routes(APP_ROUTES);
 
-app.serve({ port: 8000 });
+app.listenAndServe({ port: 8000 });

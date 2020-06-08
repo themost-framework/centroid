@@ -6,7 +6,7 @@ export * from "./files.ts";
 export * from "./context.ts";
 export * from "./controller.ts";
 export * from "./router.ts";
-export * from "./errorHandler.ts";
+export * from "./errors.ts";
 export * from "./signals.ts";
 export * from "./results.ts";
 export * from "./app.ts";
