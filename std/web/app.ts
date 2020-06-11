@@ -8,6 +8,11 @@ import { HttpNotFoundError } from '../common/mod.ts';
 import { DefaultErrorHandler, HttpErrorHandler } from './errors.ts';
 import { QuerystringConsumer } from './query.ts';
 
+export declare interface NetworkAddress {
+    hostname: string;
+    port: string;
+}
+
 export class HttpApplication extends Application  {
     private _consumers: Array<HttpConsumer> = [];
     private _handlers: Array<HttpErrorHandler> = [];
@@ -21,13 +26,25 @@ export class HttpApplication extends Application  {
         this.use(new QuerystringConsumer());
     }
     /**
-     * Defines an http consumer for handling http requests
+     * Adds an http consumer for handling http requests
+     * @example 
+     * const app = new HttpApplication();
+     * app.use(new HttpJsonConsumer({
+     *  limit: 2048
+     * }));
      * @param {HttpConsumer} consumer 
      */
     use(consumer: HttpConsumer): this {
         // add consumer
         this._consumers.push(consumer);
         return this;
+    }
+
+    /**
+     * Returns the collection of registered instances of http consumers.
+     */
+    public get consumers(): Array<HttpConsumer> {
+        return this._consumers;
     }
 
     /**
@@ -64,7 +81,7 @@ export class HttpApplication extends Application  {
      * Gets current server network address info
      */
     get addr(): any {
-        return this._server?.listener.addr;
+        return this._server && this._server.listener.addr;
     }
 
     /**
@@ -72,7 +89,8 @@ export class HttpApplication extends Application  {
      */
     get serverUri(): any {
         if (this._server && this._server.listener) {
-            return `http://${this._server?.listener.addr.hostname}:${this._server?.listener.addr.port}`;
+            const addr = this._server.listener.addr as any;
+            return `http://${addr.hostname}:${addr.port}`;
         }
     }
 

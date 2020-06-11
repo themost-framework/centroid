@@ -1,17 +1,11 @@
 import {
-    equal,
     assert,
-    assertEquals,
-    assertMatch,
-    assertThrowsAsync
-  } from "https://deno.land/std/testing/asserts.ts";
-  import { posix } from "https://deno.land/std/path/mod.ts";
-  import {HttpApplication, FileConsumer} from "../../std/web/mod.ts";
+    assertEquals  } from "https://deno.land/std/testing/asserts.ts";
+  import {HttpApplication} from "../../std/web/mod.ts";
   
-  const { test, cwd } = Deno;
+  const { test } = Deno;
 
   test("new HttpApplication()", async function (): Promise<void> {
-    const app = new HttpApplication();
   });
 
   test("HttpApplication.serve()", async function (): Promise<void> {
